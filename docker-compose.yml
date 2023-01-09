@@ -1,0 +1,43 @@
+version: "3.9"
+services:
+  minecraft_server:
+    image: 05jchambers/legendary-minecraft-geyser-floodgate:latest
+    container_name: minecraft_gayser_server
+    tty: true
+    ports:
+      - "25565:25565" # minecraft java
+      - "19132:19132/tcp" # minecraft BE
+      - "19132:19132/udp" # minecraft BE
+      - "8123:8123" # dynmap
+      - "9940:9940" # prometheus exporter
+    volumes:
+      - "minecraft_server_01:/minecraft"
+    environment:
+      - TZ=Asia/Tokyo
+  
+  prometheus:
+    image: bitnami/prometheus:latest
+    container_name: prometheus
+    tty: true
+    ports:
+      - "9090:9090"
+    volumes:
+      - "./prometheus/config:/opt/bitnami/prometheus/conf"
+      - "./prometheus/data:/opt/bitnami/prometheus/data"
+    environment:
+      - TZ=Asia/Tokyo
+  
+  grafana:
+    image: grafana/grafana
+    container_name: grafana
+    tty: true
+    ports:
+      - "3000:3000"
+    volumes:
+      - "./grafana:/var/lib/grafana"
+    environment:
+      - TZ=Asia/Tokyo
+
+volumes:
+  minecraft_server_01:
+    external: true
