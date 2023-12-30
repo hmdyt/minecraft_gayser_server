@@ -11,7 +11,7 @@ services:
       - "8123:8123" # dynmap
       - "9940:9940" # prometheus exporter
     volumes:
-      - "minecraft_server_01:/minecraft"
+      - "./minecraft:/minecraft"
     environment:
       - TZ=Asia/Tokyo
   
@@ -37,7 +37,3 @@ services:
       - "./grafana:/var/lib/grafana"
     environment:
       - TZ=Asia/Tokyo
-
-volumes:
-  minecraft_server_01:
-    external: true
